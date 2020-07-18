@@ -10,17 +10,19 @@ export class Analytics {
 
   public track = async ({
     userId,
+    uid,
     event,
     data,
   }: {
     event: string;
     data?: EventRequest['body']['data'];
     userId?: string;
+    uid?: string;
   }) => {
     await analytics.track({
       event,
       data,
-      context: { projectId: this.projectId, userId },
+      context: { projectId: this.projectId, userId, anonymousId: uid },
     });
   };
 
@@ -28,38 +30,32 @@ export class Analytics {
     page,
     data,
     userId,
+    uid,
   }: {
     page: string;
     data?: { referrer?: string; requestId?: string };
     userId?: string;
+    uid?: string;
   }) => {
     await analytics.page({
       page,
       data,
-      context: { projectId: this.projectId, userId },
+      context: { projectId: this.projectId, userId, anonymousId: uid },
     });
   };
 
   public identify = async ({
     userData,
     userId,
+    uid,
   }: {
     userData: JSONType;
     userId?: string;
+    uid?: string;
   }) => {
     await analytics.identify({
       userData,
-      context: { projectId: this.projectId, userId },
+      context: { projectId: this.projectId, userId, anonymousId: uid },
     });
   };
 }
-
-// Demo
-
-// const a = new Analytics('abcdef');
-
-// a.track({ userId: 'abc', event: 'test' });
-
-// a.track('Testing it', { testing: 'abc', count: 1 });
-// a.page('Dashboard');
-// a.page('https://splitbee.io/page');
