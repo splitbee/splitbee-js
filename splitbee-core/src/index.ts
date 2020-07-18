@@ -1,4 +1,4 @@
-import { splitbeeRequest, RequestContext, EventRequest, JSONType } from './api';
+import { splitbeeRequest, RequestContext, JSONType } from './api';
 
 export const analytics = {
   track: async ({
@@ -7,7 +7,7 @@ export const analytics = {
     context,
   }: {
     event: string;
-    data?: EventRequest['body']['data'];
+    data?: JSONType;
     context: RequestContext;
   }) => {
     await splitbeeRequest({
@@ -51,3 +51,5 @@ export const analytics = {
     });
   },
 };
+
+export { RequestContext, JSONType };
