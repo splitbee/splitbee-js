@@ -1,8 +1,8 @@
-import 'unfetch/polyfill';
+import 'cross-fetch/polyfill';
 import { analytics } from '@splitbee/core';
 import { EventRequest, JSONType } from 'splitbee-core/dist/api';
 
-export class Analytics {
+export class SplitbeeAnalytics {
   private projectId?: string;
   constructor(projectId: string) {
     this.projectId = projectId;
