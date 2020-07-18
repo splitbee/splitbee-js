@@ -5,7 +5,8 @@ Used to track events for Splitbee using Node.JS
 ### Usage
 
 ```js
-import { analytics } from '@splitbee/node';
+import { Analytics } from '@splitbee/node';
+
 const analytics = new Analytics('PROJECT_ID');
 
 analytics.track({
