@@ -1,19 +1,21 @@
-import { splitbeeRequest, RequestContext, JSONType } from './api';
+import { splitbeeRequest, RequestContext, JSONType, EventOptions } from './api';
 
 export const analytics = {
   track: async ({
     event,
     data,
     context,
+    options,
   }: {
     event: string;
     data?: JSONType;
     context: RequestContext;
+    options?: EventOptions;
   }) => {
     await splitbeeRequest({
-      path: '/track',
+      path: '/t',
       context,
-      body: { event, data },
+      body: { event, data, options },
     });
   },
 
@@ -21,10 +23,12 @@ export const analytics = {
     page,
     data,
     context,
+    options,
   }: {
     page: string;
     data?: { referrer?: string; requestId?: string };
     context: RequestContext;
+    options?: EventOptions;
   }) => {
     await splitbeeRequest({
       path: '/i',
@@ -33,6 +37,7 @@ export const analytics = {
         origin: page,
         ...(data?.referrer && { referrer: data.referrer }),
         ...(data?.requestId && { requestId: data.requestId }),
+        options,
       },
     });
   },

@@ -1,5 +1,6 @@
 import 'cross-fetch/polyfill';
 import { analytics, JSONType } from '@splitbee/core';
+import { EventOptions } from '@splitbee/core/dist/api';
 
 export class SplitbeeAnalytics {
   private projectId?: string;
@@ -7,54 +8,71 @@ export class SplitbeeAnalytics {
     this.projectId = projectId;
   }
 
-  public track = async ({
-    userId,
-    uid,
-    event,
-    data,
-  }: {
-    event: string;
-    data?: JSONType;
-    userId?: string;
-    uid?: string;
-  }) => {
+  public track = async (
+    {
+      userId,
+      event,
+      data,
+    }: {
+      userId: string;
+      event: string;
+      data?: JSONType;
+    },
+    options?: EventOptions
+  ) => {
     await analytics.track({
       event,
       data,
-      context: { projectId: this.projectId, userId, anonymousId: uid },
+      options,
+      context: {
+        projectId: this.projectId,
+        userId,
+        anonymousId: options?.__uid,
+      },
     });
   };
 
-  public page = async ({
-    page,
-    data,
-    userId,
-    uid,
-  }: {
-    page: string;
-    data?: { referrer?: string; requestId?: string };
-    userId?: string;
-    uid?: string;
-  }) => {
+  public page = async (
+    {
+      page,
+      data,
+      userId,
+    }: {
+      page: string;
+      data?: { referrer?: string; requestId?: string };
+      userId: string;
+    },
+    options?: EventOptions
+  ) => {
     await analytics.page({
       page,
       data,
-      context: { projectId: this.projectId, userId, anonymousId: uid },
+      options,
+      context: {
+        projectId: this.projectId,
+        userId,
+        anonymousId: options?.__uid,
+      },
     });
   };
 
-  public identify = async ({
-    userData,
-    userId,
-    uid,
-  }: {
-    userData: JSONType;
-    userId?: string;
-    uid?: string;
-  }) => {
+  public identify = async (
+    {
+      userData,
+      userId,
+    }: {
+      userData: JSONType;
+      userId: string;
+    },
+    options?: EventOptions
+  ) => {
     await analytics.identify({
       userData,
-      context: { projectId: this.projectId, userId, anonymousId: uid },
+      context: {
+        projectId: this.projectId,
+        userId,
+        anonymousId: options?.__uid,
+      },
     });
   };
 }
