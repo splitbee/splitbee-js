@@ -55,24 +55,4 @@ export class SplitbeeAnalytics {
       },
     });
   };
-
-  public identify = async (
-    {
-      userData,
-      userId,
-    }: {
-      userData: JSONType;
-      userId: string;
-    },
-    options?: EventOptions
-  ) => {
-    await analytics.identify({
-      userData,
-      context: {
-        projectId: this.projectId,
-        userId,
-        anonymousId: options?.__uid,
-      },
-    });
-  };
 }
