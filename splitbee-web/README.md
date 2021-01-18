@@ -1,19 +1,19 @@
-# splitbee-node
+# @splitbee/web
 
-Used to track events for Splitbee using Node.JS
+Used to track page views and events using any web framework like Next.js, Gatsby.js, Nuxt.js and others
 
 ### Usage
 
 ```js
-import { SplitbeeAnalytics } from '@splitbee/node';
+import { init } from '@splitbee/web';
 
-const analytics = new SplitbeeAnalytics('PROJECT_ID');
+init();
+```
 
-analytics.track({
-  userId: 'myunique@user.id',
-  event: 'Payment confirmed',
-  data: {
-    paymentId: '1234567890',
-  },
+There are possible parameters that you can use to configure Splitbee.
+
+```js
+init({
+  noCookie: true, // will disable the cookie usage
 });
 ```

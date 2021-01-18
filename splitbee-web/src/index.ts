@@ -45,9 +45,7 @@ export const init = (options?: SplitbeeOptions) => {
   document.head.appendChild(script);
 };
 
-export default () => {
-  return window.splitbee;
-};
+export default window.splitbee as Splitbee;
 
 type QueueData = {
   type: 'user' | 'event';
