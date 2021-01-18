@@ -10,8 +10,8 @@ type SplitbeeOptions = {
 
 const queue: Array<QueueData> = [];
 const createAddToQueue = (type: QueueData['type']) => {
-  return (...args: any) => {
-    queue.push({ type: type, payload: args });
+  return (one: any, two: any) => {
+    queue.push({ type: type, payload: [one, two] });
   };
 };
 
