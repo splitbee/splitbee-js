@@ -6,7 +6,7 @@ export type SplitbeeOptions = {
   disableCookie?: boolean;
   token?: string;
   apiUrl?: string;
-  srcUrl?: string;
+  scriptUrl?: string;
 };
 
 export type Splitbee = {
