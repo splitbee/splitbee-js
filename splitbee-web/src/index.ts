@@ -25,6 +25,7 @@ const initSplitbee = (options?: SplitbeeOptions) => {
   script.onload = function() {
     splitbee.track = window.splitbee.track;
     splitbee.user = window.splitbee.user;
+    splitbee.enableCookie = window.splitbee.enableCookie;
 
     queue.forEach(ev => {
       if (ev.type === 'event') window.splitbee.track.apply(null, ev.payload);
