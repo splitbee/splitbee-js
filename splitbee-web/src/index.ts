@@ -1,6 +1,7 @@
 import { QueueData, Splitbee, SplitbeeOptions } from './types';
 
 const SCRIPT_URL = 'https://cdn.splitbee.io/sb.js';
+let queue: Array<QueueData> = [];
 
 const handleLoad = () => {
   splitbee.track = window.splitbee.track;
@@ -13,9 +14,15 @@ const handleLoad = () => {
       window.splitbee.user.set.apply(null, ev.payload);
     else if (ev.type === 'enableCookie') window.splitbee.enableCookie();
   });
+
+  queue = [];
 };
 
-const queue: Array<QueueData> = [];
+if (typeof window !== 'undefined') {
+  // triggers when sb.js is loaded before
+  (window as any)._sbLoad = handleLoad;
+}
+
 const createAddToQueue = (type: QueueData['type']) => (...args: any) => {
   queue.push({ type: type, payload: args });
   if (window.splitbee) {
@@ -36,7 +43,6 @@ const initSplitbee = (options?: SplitbeeOptions) => {
     if (options.disableCookie) script.dataset.noCookie = '1';
   }
 
-  script.onload = handleLoad;
   document.head.appendChild(script);
 };
 
