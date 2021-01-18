@@ -1,17 +1,11 @@
-import { Splitbee } from './types';
+import { QueueData, Splitbee, SplitbeeOptions } from './types';
 
 const SCRIPT_URL = 'https://cdn.splitbee.io/sb.js';
 
-type SplitbeeOptions = {
-  disableCookie?: boolean;
-  token?: string;
-  api?: string;
-};
-
 const queue: Array<QueueData> = [];
 const createAddToQueue = (type: QueueData['type']) => {
-  return (one: any, two: any) => {
-    queue.push({ type: type, payload: [one, two] });
+  return (...args: any) => {
+    queue.push({ type: type, payload: args });
   };
 };
 
@@ -19,7 +13,7 @@ const initSplitbee = (options?: SplitbeeOptions) => {
   if (typeof window === 'undefined' || window.splitbee) return;
 
   const script = document.createElement('script');
-  script.src = SCRIPT_URL;
+  script.src = options?.src ? options.src : SCRIPT_URL;
   script.async = true;
 
   if (options) {
@@ -31,9 +25,12 @@ const initSplitbee = (options?: SplitbeeOptions) => {
   script.onload = function() {
     splitbee.track = window.splitbee.track;
     splitbee.user = window.splitbee.user;
+
     queue.forEach(ev => {
       if (ev.type === 'event') window.splitbee.track.apply(null, ev.payload);
-      if (ev.type === 'user') window.splitbee.user.set.apply(null, ev.payload);
+      else if (ev.type === 'user')
+        window.splitbee.user.set.apply(null, ev.payload);
+      else if (ev.type === 'enableCookie') window.splitbee.enableCookie();
     });
   };
   document.head.appendChild(script);
@@ -45,11 +42,7 @@ const splitbee: Splitbee = window.splitbee || {
     set: createAddToQueue('user'),
   },
   init: initSplitbee,
+  enableCookie: createAddToQueue('enableCookie'),
 };
 
 export default splitbee;
-
-type QueueData = {
-  type: 'user' | 'event';
-  payload: any;
-};
