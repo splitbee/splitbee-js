@@ -13,11 +13,11 @@ const initSplitbee = (options?: SplitbeeOptions) => {
   if (typeof window === 'undefined' || window.splitbee) return;
 
   const script = document.createElement('script');
-  script.src = options?.src ? options.src : SCRIPT_URL;
+  script.src = options?.scriptUrl ? options.scriptUrl : SCRIPT_URL;
   script.async = true;
 
   if (options) {
-    if (options.api) script.dataset.api = options.api;
+    if (options.apiUrl) script.dataset.api = options.apiUrl;
     if (options.token) script.dataset.token = options.token;
     if (options.disableCookie) script.dataset.noCookie = '1';
   }

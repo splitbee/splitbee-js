@@ -5,8 +5,8 @@ type Data = { [key: string]: string | number | boolean };
 export type SplitbeeOptions = {
   disableCookie?: boolean;
   token?: string;
-  api?: string;
-  src?: string;
+  apiUrl?: string;
+  srcUrl?: string;
 };
 
 export type Splitbee = {
