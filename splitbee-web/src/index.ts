@@ -22,7 +22,7 @@ let splitbee: Splitbee = window.splitbee || {
   },
 };
 
-export const init = (options?: SplitbeeOptions) => {
+export const initSplitbee = (options?: SplitbeeOptions) => {
   if (typeof window === 'undefined' || window.splitbee) return;
 
   const script = document.createElement('script');
