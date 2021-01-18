@@ -8,23 +8,22 @@ type SplitbeeOptions = {
   api?: string;
 };
 
+const queue: Array<QueueData> = [];
+const createAddToQueue = (type: QueueData['type']) => {
+  return (...args: any) => {
+    queue.push({ type: type, payload: args });
+  };
+};
+
+let splitbee: Splitbee = window.splitbee || {
+  track: createAddToQueue('event'),
+  user: {
+    set: createAddToQueue('user'),
+  },
+};
+
 export const init = (options?: SplitbeeOptions) => {
   if (typeof window === 'undefined' || window.splitbee) return;
-  const queue: Array<QueueData> = [];
-  const createAddToQueue = (type: QueueData['type']) => {
-    return (...args: any) => {
-      queue.push({ type: type, payload: args });
-    };
-  };
-
-  window.splitbee =
-    window.splitbee ||
-    ({
-      track: createAddToQueue('event'),
-      user: {
-        set: createAddToQueue('user'),
-      },
-    } as Splitbee);
 
   const script = document.createElement('script');
   script.src = SCRIPT_URL;
@@ -37,6 +36,7 @@ export const init = (options?: SplitbeeOptions) => {
   }
 
   script.onload = function() {
+    splitbee = window.splitbee;
     queue.forEach(ev => {
       if (ev.type === 'event') window.splitbee.track.apply(null, ev.payload);
       if (ev.type === 'user') window.splitbee.user.set.apply(null, ev.payload);
@@ -45,7 +45,7 @@ export const init = (options?: SplitbeeOptions) => {
   document.head.appendChild(script);
 };
 
-export default window.splitbee as Splitbee;
+export default splitbee;
 
 type QueueData = {
   type: 'user' | 'event';
