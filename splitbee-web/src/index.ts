@@ -15,14 +15,7 @@ const createAddToQueue = (type: QueueData['type']) => {
   };
 };
 
-let splitbee: Splitbee = window.splitbee || {
-  track: createAddToQueue('event'),
-  user: {
-    set: createAddToQueue('user'),
-  },
-};
-
-export const initSplitbee = (options?: SplitbeeOptions) => {
+const initSplitbee = (options?: SplitbeeOptions) => {
   if (typeof window === 'undefined' || window.splitbee) return;
 
   const script = document.createElement('script');
@@ -36,13 +29,22 @@ export const initSplitbee = (options?: SplitbeeOptions) => {
   }
 
   script.onload = function() {
-    splitbee = window.splitbee;
+    splitbee.track = window.splitbee.track;
+    splitbee.user = window.splitbee.user;
     queue.forEach(ev => {
       if (ev.type === 'event') window.splitbee.track.apply(null, ev.payload);
       if (ev.type === 'user') window.splitbee.user.set.apply(null, ev.payload);
     });
   };
   document.head.appendChild(script);
+};
+
+const splitbee: Splitbee = window.splitbee || {
+  track: createAddToQueue('event'),
+  user: {
+    set: createAddToQueue('user'),
+  },
+  init: initSplitbee,
 };
 
 export default splitbee;
