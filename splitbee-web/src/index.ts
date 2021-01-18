@@ -23,7 +23,7 @@ if (typeof window !== 'undefined') {
   (window as any)._sbLoad = handleLoad;
 }
 
-const createAddToQueue = (type: QueueData['type']) => (...args: any) => {
+const createAddToQueue = (type: QueueData['type']) => async (...args: any) => {
   queue.push({ type: type, payload: args });
   if (window.splitbee) {
     handleLoad();
@@ -46,7 +46,7 @@ const initSplitbee = (options?: SplitbeeOptions) => {
   document.head.appendChild(script);
 };
 
-const splitbee: Splitbee = window.splitbee || {
+const splitbee: Splitbee = {
   track: createAddToQueue('event'),
   user: {
     set: createAddToQueue('user'),
