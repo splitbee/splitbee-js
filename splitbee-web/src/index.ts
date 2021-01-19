@@ -1,10 +1,11 @@
 import { QueueData, Splitbee, SplitbeeOptions } from './types';
 
+const isBrowser = typeof window !== 'undefined';
 const SCRIPT_URL = 'https://cdn.splitbee.io/sb.js';
 let queue: Array<QueueData> = [];
 
 const handleLoad = () => {
-  if (!window.splitbee) return;
+  if (isBrowser && !window.splitbee) return;
   splitbee.track = window.splitbee.track;
   splitbee.user = window.splitbee.user;
   splitbee.enableCookie = window.splitbee.enableCookie;
@@ -19,7 +20,7 @@ const handleLoad = () => {
   queue = [];
 };
 
-if (typeof window !== 'undefined') {
+if (isBrowser) {
   // triggers when sb.js is loaded before
   (window as any)._sbLoad = () => {
     setTimeout(() => handleLoad(), 10);
@@ -28,13 +29,13 @@ if (typeof window !== 'undefined') {
 
 const createAddToQueue = (type: QueueData['type']) => async (...args: any) => {
   queue.push({ type: type, payload: args });
-  if (window.splitbee) {
+  if (isBrowser && window.splitbee) {
     handleLoad();
   }
 };
 
 const initSplitbee = (options?: SplitbeeOptions) => {
-  if (typeof window === 'undefined' || window.splitbee) return;
+  if (!isBrowser || window.splitbee) return;
 
   const script = document.createElement('script');
   script.src = options?.scriptUrl ? options.scriptUrl : SCRIPT_URL;
