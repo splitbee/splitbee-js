@@ -20,13 +20,6 @@ const handleLoad = () => {
   queue = [];
 };
 
-if (isBrowser) {
-  // triggers when sb.js is loaded before
-  (window as any)._sbLoad = () => {
-    setTimeout(() => handleLoad(), 10);
-  };
-}
-
 const createAddToQueue = (type: QueueData['type']) => async (...args: any) => {
   queue.push({ type: type, payload: args });
   if (isBrowser && window.splitbee) {
@@ -37,8 +30,20 @@ const createAddToQueue = (type: QueueData['type']) => async (...args: any) => {
 const initSplitbee = (options?: SplitbeeOptions) => {
   if (!isBrowser || window.splitbee) return;
 
+  const document = window.document;
+  const scriptUrl = options?.scriptUrl ? options.scriptUrl : SCRIPT_URL;
+
+  const injectedScript = document.querySelector(
+    `script[src='${scriptUrl}']`
+  ) as HTMLScriptElement | null;
+
+  if (injectedScript) {
+    injectedScript.onload = handleLoad;
+    return;
+  }
+
   const script = document.createElement('script');
-  script.src = options?.scriptUrl ? options.scriptUrl : SCRIPT_URL;
+  script.src = scriptUrl;
   script.async = true;
 
   if (options) {
@@ -46,6 +51,8 @@ const initSplitbee = (options?: SplitbeeOptions) => {
     if (options.token) script.dataset.token = options.token;
     if (options.disableCookie) script.dataset.noCookie = '1';
   }
+
+  script.onload = handleLoad;
 
   document.head.appendChild(script);
 };
