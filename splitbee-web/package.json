@@ -1,6 +1,6 @@
 {
   "name": "@splitbee/web",
-  "version": "0.1.13",
+  "version": "0.2.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
