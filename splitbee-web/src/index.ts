@@ -4,6 +4,7 @@ const SCRIPT_URL = 'https://cdn.splitbee.io/sb.js';
 let queue: Array<QueueData> = [];
 
 const handleLoad = () => {
+  if (!window.splitbee) return;
   splitbee.track = window.splitbee.track;
   splitbee.user = window.splitbee.user;
   splitbee.enableCookie = window.splitbee.enableCookie;
@@ -20,7 +21,9 @@ const handleLoad = () => {
 
 if (typeof window !== 'undefined') {
   // triggers when sb.js is loaded before
-  (window as any)._sbLoad = handleLoad;
+  (window as any)._sbLoad = () => {
+    setTimeout(() => handleLoad(), 10);
+  };
 }
 
 const createAddToQueue = (type: QueueData['type']) => async (...args: any) => {
