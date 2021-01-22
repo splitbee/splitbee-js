@@ -5,9 +5,10 @@ Used to track events for Splitbee using Node.JS
 ### Usage
 
 ```js
-import { SplitbeeAnalytics } from '@splitbee/node';
+const { SplitbeeAnalytics } = require('@splitbee/node');
 
-const analytics = new SplitbeeAnalytics('PROJECT_ID');
+// Token can be found in dashboard settings
+const analytics = new SplitbeeAnalytics('PROJECT_TOKEN');
 
 analytics.track({
   userId: 'myunique@user.id',
