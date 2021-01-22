@@ -1,6 +1,6 @@
 {
   "name": "@splitbee/node",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -39,7 +39,7 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@splitbee/core": "^0.1.0",
+    "@splitbee/core": "^0.1.7",
     "cross-fetch": "^3.0.5"
   }
 }
