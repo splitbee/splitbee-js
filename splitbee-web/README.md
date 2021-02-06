@@ -14,7 +14,7 @@ There are possible parameters that you can use to configure Splitbee.
 
 ```js
 splitbee.init({
-  noCookie: true, // will disable the cookie usage
+  disableCookie: true, // will disable the cookie usage
 });
 ```
 
