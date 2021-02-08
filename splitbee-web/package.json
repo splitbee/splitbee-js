@@ -26,7 +26,7 @@
     "trailingComma": "es5"
   },
   "author": "Tobias Lins",
-  "module": "dist/splitbee-js.esm.js",
+  "module": "dist/web.esm.js",
   "devDependencies": {
     "husky": "^4.2.5",
     "tsdx": "^0.13.2",
