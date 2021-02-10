@@ -41,11 +41,15 @@ interface IdentifyRequest extends GenericRequest {
 
 type Requests = PageViewRequest | EventRequest | IdentifyRequest;
 
+export type Response = {
+  uid: string;
+};
+
 export const splitbeeRequest = async ({
   path,
   context,
   body,
-}: Requests): Promise<boolean> => {
+}: Requests): Promise<Response | undefined> => {
   try {
     const res = await fetch(`https://hive.splitbee.io` + path, {
       method: 'POST',
@@ -59,12 +63,15 @@ export const splitbeeRequest = async ({
       },
       body: JSON.stringify(body),
     });
+
     if (typeof process.env !== undefined && res.status !== 200) {
       const body = await res.json();
       console.log('Splitbee Error: ', body);
     }
-    return true;
+    return {
+      uid: res.headers.get('uid')!,
+    };
   } catch (err) {
-    return false;
+    return undefined;
   }
 };
