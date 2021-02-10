@@ -12,7 +12,7 @@ export const analytics = {
     context: RequestContext;
     options?: EventOptions;
   }) => {
-    await splitbeeRequest({
+    return await splitbeeRequest({
       path: '/t',
       context,
       body: { event, data, options },
@@ -30,7 +30,7 @@ export const analytics = {
     context: RequestContext;
     options?: EventOptions;
   }) => {
-    await splitbeeRequest({
+    return await splitbeeRequest({
       path: '/i',
       context,
       body: {
@@ -49,7 +49,7 @@ export const analytics = {
     userData: JSONType;
     context: RequestContext;
   }) => {
-    await splitbeeRequest({
+    return await splitbeeRequest({
       path: '/user',
       context,
       body: userData,
