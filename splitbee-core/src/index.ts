@@ -1,4 +1,10 @@
-import { splitbeeRequest, RequestContext, JSONType, EventOptions } from './api';
+import {
+  splitbeeRequest,
+  RequestContext,
+  JSONType,
+  EventOptions,
+  setEndpoint,
+} from './api';
 
 export const analytics = {
   track: async ({
@@ -34,7 +40,7 @@ export const analytics = {
       path: '/i',
       context,
       body: {
-        origin: page,
+        page,
         ...(data?.referrer && { referrer: data.referrer }),
         ...(data?.requestId && { requestId: data.requestId }),
         options,
@@ -55,6 +61,28 @@ export const analytics = {
       body: userData,
     });
   },
+
+  end: async ({
+    requestId,
+    data,
+    context,
+  }: {
+    requestId: string;
+    data: {
+      duration: number;
+      destination?: string;
+    };
+    context: RequestContext;
+  }) => {
+    return await splitbeeRequest({
+      path: '/end',
+      context,
+      body: {
+        requestId,
+        data,
+      },
+    });
+  },
 };
 
-export { RequestContext, JSONType };
+export { RequestContext, JSONType, setEndpoint };

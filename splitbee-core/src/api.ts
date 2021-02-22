@@ -1,8 +1,25 @@
+export type Device = {
+  os: { name: string; version: string };
+  client: {
+    name: string; //'Opera';
+    type: string; //'browser';
+    // engine: 'Blink';
+    // engineVersion: '';
+    version: string; //'73.0';
+  };
+  device: {
+    type: string; //'desktop';
+    brand: string; // 'Apple';
+    model: string; // '';
+  };
+};
+
 export interface RequestContext {
   projectId?: string;
   userId?: string;
-  anonymousId?: string;
+  uid?: string;
   userAgent?: string;
+  device?: Device;
 }
 interface GenericRequest {
   context?: RequestContext;
@@ -39,11 +56,25 @@ interface IdentifyRequest extends GenericRequest {
   body: JSONType;
 }
 
-type Requests = PageViewRequest | EventRequest | IdentifyRequest;
+interface EndRequest extends GenericRequest {
+  path: '/end';
+  body: {
+    requestId: string;
+    data: {
+      duration: number;
+    };
+  };
+}
+
+type Requests = PageViewRequest | EventRequest | IdentifyRequest | EndRequest;
 
 export type Response = {
   uid: string;
 };
+
+let ENDPOINT = `https://hive.splitbee.io`;
+
+export const setEndpoint = (endpoint: string) => (ENDPOINT = endpoint);
 
 export const splitbeeRequest = async ({
   path,
@@ -51,14 +82,15 @@ export const splitbeeRequest = async ({
   body,
 }: Requests): Promise<Response | undefined> => {
   try {
-    const res = await fetch(`https://hive.splitbee.io` + path, {
+    const res = await fetch(ENDPOINT + path, {
       method: 'POST',
       headers: {
         ...(context?.userId &&
           context.userId !== '' && { userId: context.userId }),
-        ...(context?.anonymousId && { uid: context.anonymousId }),
+        ...(context?.uid && { uid: context.uid }),
         ...(context?.projectId && { sbp: context.projectId }),
         ...(context?.userAgent && { 'user-agent': context.userAgent }),
+        ...(context?.device && { device: JSON.stringify(context.device) }),
         // ...(event.context.page && { origin: event.context.page.url }),
       },
       body: JSON.stringify(body),
