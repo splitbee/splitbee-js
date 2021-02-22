@@ -27,7 +27,7 @@ export class SplitbeeAnalytics {
       context: {
         projectId: this.projectId,
         userId,
-        anonymousId: options?.__uid,
+        uid: options?.__uid,
       },
     });
   };
@@ -51,7 +51,7 @@ export class SplitbeeAnalytics {
       context: {
         projectId: this.projectId,
         userId,
-        anonymousId: options?.__uid,
+        uid: options?.__uid,
       },
     });
   };
