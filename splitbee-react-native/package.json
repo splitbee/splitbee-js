@@ -1,6 +1,6 @@
 {
   "name": "@splitbee/react-native",
-  "version": "0.1.0",
+  "version": "0.1.11",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -12,11 +12,9 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build"
+    "start": "tsc --watch watch",
+    "build": "tsc",
+    "prepare": "tsc"
   },
   "peerDependencies": {
     "expo-constants": "^10.0.1",
@@ -37,7 +35,6 @@
     "trailingComma": "es5"
   },
   "author": "Tobias Lins",
-  "module": "dist/splitbee-node.esm.js",
   "devDependencies": {
     "@react-navigation/native": "^5.9.3",
     "@types/react": ">=16.8.0",
@@ -47,12 +44,12 @@
     "husky": "^4.2.5",
     "react-native-device-info": "^8.0.1",
     "tsdx": "^0.13.2",
-    "tslib": "^2.0.0",
     "typescript": "^3.9.7"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.14.0",
     "@splitbee/core": "^0.2.6",
-    "cross-fetch": "^3.0.5"
+    "cross-fetch": "^3.0.5",
+    "tslib": "^2.1.0"
   }
 }
