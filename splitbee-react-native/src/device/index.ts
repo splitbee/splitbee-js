@@ -25,14 +25,14 @@ export const getDeviceInfo = async () => {
     client: {
       name: 'React Native',
       type: 'app',
-      version: DeviceInfo.getVersion(),
-      build: DeviceInfo.getBuildNumber(),
+      version: await DeviceInfo.getVersion(),
+      build: await DeviceInfo.getBuildNumber(),
     },
     device: {
-      type: DeviceInfo.isTablet() ? 'tablet' : 'smartphone',
+      type: (await DeviceInfo.isTablet()) ? 'tablet' : 'smartphone',
       brand: await DeviceInfo.getManufacturer(),
-      model: DeviceInfo.getModel(),
-      deviceId: DeviceInfo.getDeviceId(),
+      model: await DeviceInfo.getModel(),
+      deviceId: await DeviceInfo.getDeviceId(),
     },
   };
 };

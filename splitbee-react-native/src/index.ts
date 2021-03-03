@@ -21,36 +21,47 @@ const generateUid = () =>
     .toString(36)
     .substring(7);
 
-export const useSplitbee = async (token: string) => {
+const loadUid = async () => {
+  uid = uid || (await AsyncStorage.getItem('splitbee_uid')) || undefined;
+  userId =
+    userId || (await AsyncStorage.getItem('splitbee_userId')) || undefined;
+};
+
+export const initSplitbee = (token: string) => {
+  projectToken = token;
+  loadUid();
+  AppState.removeEventListener('change', onChange);
+  AppState.addEventListener('change', onChange);
+};
+
+export const useTrackReactNavigation = (
+  ref?: React.MutableRefObject<NavigationContainerRef>
+): [
+  { onReady: () => void; onStateChange: () => void },
+  React.MutableRefObject<NavigationContainerRef | null>
+] => {
   const navigationRef = useRef<NavigationContainerRef | null>(null);
   const routeNameRef = useRef<string | null>(null);
 
-  useEffect(() => {
-    const loadUid = async () => {
-      uid = uid || (await AsyncStorage.getItem(UID_KEY)) || undefined;
-      userId = userId || (await AsyncStorage.getItem(USERID_KEY)) || undefined;
-    };
-    projectToken = token;
-    loadUid();
-    AppState.addEventListener('change', onChange);
-    return () => AppState.removeEventListener('change', onChange);
-  }, []);
+  const navRef = ref?.current || navigationRef.current;
 
-  return {
-    onReady: () =>
-      (routeNameRef.current = navigationRef.current?.getCurrentRoute()!.name!),
+  return [
+    {
+      onReady: () => (routeNameRef.current = navRef?.getCurrentRoute()!.name!),
+      onStateChange: async () => {
+        const previousRouteName = routeNameRef.current;
+        const currentRouteName = navRef?.getCurrentRoute()?.name;
 
-    onStateChange: async () => {
-      const previousRouteName = routeNameRef.current;
-      const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
-
-      if (previousRouteName !== currentRouteName) {
-        splitbee.screen(currentRouteName!);
-      }
-      routeNameRef.current = currentRouteName!;
+        if (previousRouteName !== currentRouteName) {
+          splitbee.screen(currentRouteName!);
+        }
+        routeNameRef.current = currentRouteName!;
+      },
     },
-  };
+    ref || navigationRef,
+  ];
 };
+
 const sendEnd = async (closeApp?: boolean) => {
   if (requestId) {
     await analytics.end({
