@@ -4,6 +4,7 @@ import {
   JSONType,
   EventOptions,
   setEndpoint,
+  Response,
 } from './api';
 
 export const analytics = {
@@ -85,4 +86,4 @@ export const analytics = {
   },
 };
 
-export { RequestContext, JSONType, setEndpoint };
+export { RequestContext, JSONType, Response, setEndpoint };

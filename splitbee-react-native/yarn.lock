@@ -1631,10 +1631,10 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@splitbee/core@^0.2.6":
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/@splitbee/core/-/core-0.2.6.tgz#6254b6dab5d55ce8cfd150ee7d7663d6769353ac"
-  integrity sha512-0+njusIz5EgspUZTJB2M5yD8fmsBnJqQkwRlt6gnrMYV37+rHva/ugIgXJ9emPymNf93Latm0w/NCg2s1cjslw==
+"@splitbee/core@^0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@splitbee/core/-/core-0.2.7.tgz#8de0a606ceebe371f8fb6a1dc1c4ae96dbfd1c03"
+  integrity sha512-kuLqtJxJmPZoSbe3ob/sogEphCTmu74RMOcy291z810XWD0T0Il0wytlAE6b71s/8KCTSjcCt2kgB3nLf7AKbQ==
 
 "@types/babel__core@^7.1.0":
   version "7.1.12"

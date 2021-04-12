@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
-import { analytics } from '@splitbee/core';
+import { analytics, JSONType, Response } from '@splitbee/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainerRef } from '@react-navigation/native';
 
@@ -25,13 +25,6 @@ const loadUid = async () => {
   uid = uid || (await AsyncStorage.getItem('splitbee_uid')) || undefined;
   userId =
     userId || (await AsyncStorage.getItem('splitbee_userId')) || undefined;
-};
-
-export const initSplitbee = (token: string) => {
-  projectToken = token;
-  loadUid();
-  AppState.removeEventListener('change', onChange);
-  AppState.addEventListener('change', onChange);
 };
 
 export const useTrackReactNavigation = (
@@ -86,7 +79,27 @@ const onChange = async (state: AppStateStatus) => {
   }
 };
 
+const processResponse = async (response: Response | undefined) => {
+  if (response?.uid) {
+    uid = response.uid;
+    await AsyncStorage.setItem(UID_KEY, response.uid);
+  }
+};
+
+const getContext = async () => ({
+  projectId: projectToken,
+  uid,
+  userId,
+  device: await getDeviceInfo(),
+});
+
 const splitbee = {
+  init: (token: string) => {
+    projectToken = token;
+    loadUid();
+    AppState.removeEventListener('change', onChange);
+    AppState.addEventListener('change', onChange);
+  },
   setUserId: (id: string) => {
     userId = id;
     AsyncStorage.setItem(USERID_KEY, id)
@@ -104,18 +117,10 @@ const splitbee = {
         data: {
           requestId,
         },
-        context: {
-          projectId: projectToken,
-          uid,
-          userId,
-          device: await getDeviceInfo(),
-        },
+        context: await getContext(),
       });
 
-      if (response?.uid) {
-        uid = response.uid;
-        await AsyncStorage.setItem(UID_KEY, response.uid);
-      }
+      processResponse(response);
     }
   },
   track: async (event: string, data?: any) => {
@@ -123,12 +128,18 @@ const splitbee = {
       const response = await analytics.track({
         event,
         data,
-        context: { projectId: projectToken, uid, userId },
+        context: await getContext(),
       });
-      if (response?.uid) {
-        uid = response.uid;
-        await AsyncStorage.setItem(UID_KEY, response.uid);
-      }
+      processResponse(response);
+    }
+  },
+  identify: async (userData: JSONType) => {
+    if (projectToken) {
+      const response = await analytics.identify({
+        userData,
+        context: await getContext(),
+      });
+      processResponse(response);
     }
   },
 };

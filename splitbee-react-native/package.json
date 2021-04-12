@@ -1,6 +1,6 @@
 {
   "name": "@splitbee/react-native",
-  "version": "0.1.11",
+  "version": "0.2.2",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -17,11 +17,11 @@
     "prepare": "tsc"
   },
   "peerDependencies": {
-    "expo-constants": "^10.0.1",
-    "expo-device": "^3.1.1",
+    "expo-constants": ">=9.0.1",
+    "expo-device": ">=2.4.0",
     "react": ">=16.8.0",
     "react-native": ">=0.59.0",
-    "react-native-device-info": "^8.0.1"
+    "react-native-device-info": ">=7.0.1"
   },
   "husky": {
     "hooks": {
@@ -47,8 +47,8 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.14.0",
-    "@splitbee/core": "^0.2.6",
+    "@react-native-async-storage/async-storage": ">=1.13.0",
+    "@splitbee/core": "^0.2.7",
     "cross-fetch": "^3.0.5",
     "tslib": "^2.1.0"
   }

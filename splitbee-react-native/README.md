@@ -2,20 +2,12 @@
 
 Used to track screen views & events of React Native & Expo Apps using Splitbee.
 
-## Installation
-
-First, you need to install our SDK
-
-```bash
-yarn add @splitbee/react-native
-```
-
 ### Usage with Expo
 
 Install following expo dependencies:
 
 ```bash
-expo install expo-device expo-constants @react-native-async-storage/async-storage
+expo install @splitbee/react-native expo-device expo-constants @react-native-async-storage/async-storage
 ```
 
 We need those for getting the device data & persisting the user on a device.
@@ -25,7 +17,7 @@ We need those for getting the device data & persisting the user on a device.
 Install following dependencies: [@react-native-async-storage/async-storage](`https://react-native-async-storage.github.io/async-storage/docs/install`) & [react-native-device-info](https://github.com/react-native-device-info/react-native-device-info)
 
 ```bash
-yarn add react-native-device-info @react-native-async-storage/async-storage
+yarn add @splitbee/react-native react-native-device-info @react-native-async-storage/async-storage
 npx pod-install
 ```
 
@@ -35,12 +27,12 @@ Please follow the official documentation of those libraries on how to link them 
 
 ### Initialize Splitbee
 
-First of all you need to initialize the Splitbee SDK. For that, run `initSplitbee` with your token.
+First of all you need to initialize the Splitbee SDK. For that, run `splitbee.init` with your token.
 
 ```js
-import { initSplitbee } from '@splitbee/react-native';
+import splitbee from '@splitbee/react-native';
 
-initSplitbee('YOUR_TOKEN'); // Take the token from the project settings in the Splitbee dashboard
+splitbee.init('YOUR_TOKEN'); // Take the token from the project settings in the Splitbee dashboard
 ```
 
 ## Screen Tracking
