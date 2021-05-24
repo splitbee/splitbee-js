@@ -18,3 +18,15 @@ analytics.track({
   },
 });
 ```
+
+Set data to user profile
+
+```js
+analytics.user.set({
+  userId: 'myunique@user.id',
+  userData: {
+    username: 'Custom Name',
+    isTrial: true,
+  },
+});
+```

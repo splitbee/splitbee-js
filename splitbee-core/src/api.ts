@@ -25,7 +25,7 @@ interface GenericRequest {
   context?: RequestContext;
 }
 
-export type JSONType = { [key: string]: string | number };
+export type JSONType = { [key: string]: string | number | boolean };
 
 interface PageViewRequest extends GenericRequest {
   path: '/i';
