@@ -1,6 +1,6 @@
 export {};
 
-type Data = { [key: string]: string | number | boolean };
+type Data = { [key: string]: string | number | boolean | undefined | null };
 
 export type SplitbeeOptions = {
   disableCookie?: boolean;
