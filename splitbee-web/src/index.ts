@@ -9,12 +9,15 @@ const handleLoad = () => {
   splitbee.track = window.splitbee.track;
   splitbee.user = window.splitbee.user;
   splitbee.enableCookie = window.splitbee.enableCookie;
+  splitbee.reset = window.splitbee.reset;
 
   queue.forEach(ev => {
-    if (ev.type === 'event') window.splitbee.track.apply(null, ev.payload);
+    if (ev.type === 'track') window.splitbee.track.apply(null, ev.payload);
     else if (ev.type === 'user')
       window.splitbee.user.set.apply(null, ev.payload);
-    else if (ev.type === 'enableCookie') window.splitbee.enableCookie();
+    else if (ev.type === 'enableCookie')
+      window.splitbee.enableCookie.apply(null, ev.payload);
+    else if (ev.type === 'reset') window.splitbee.reset();
   });
 
   queue = [];
@@ -58,12 +61,13 @@ const initSplitbee = (options?: SplitbeeOptions) => {
 };
 
 const splitbee: Splitbee = {
-  track: createAddToQueue('event'),
+  track: createAddToQueue('track'),
   user: {
     set: createAddToQueue('user'),
   },
   init: initSplitbee,
   enableCookie: createAddToQueue('enableCookie'),
+  reset: createAddToQueue('reset'),
 };
 
 export default splitbee;

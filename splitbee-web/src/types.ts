@@ -15,7 +15,8 @@ export type Splitbee = {
     set: (data: Data) => Promise<void>;
   };
   init: (config?: SplitbeeOptions) => void;
-  enableCookie: () => void;
+  enableCookie: (forceNewSession?: boolean) => void;
+  reset: () => void;
 };
 
 declare global {
@@ -25,6 +26,6 @@ declare global {
 }
 
 export type QueueData = {
-  type: 'user' | 'event' | 'enableCookie';
+  type: 'user' | 'track' | 'enableCookie' | 'reset';
   payload: any;
 };
