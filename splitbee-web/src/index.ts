@@ -9,6 +9,7 @@ const handleLoad = () => {
   splitbee.track = window.splitbee.track;
   splitbee.user = window.splitbee.user;
   splitbee.enableCookie = window.splitbee.enableCookie;
+  splitbee.reset = window.splitbee.reset;
 
   queue.forEach(ev => {
     if (ev.type === 'track') window.splitbee.track.apply(null, ev.payload);
