@@ -2,7 +2,7 @@
 
 Used to track events for Splitbee using Node.JS
 
-### Usage
+### Basic Usage
 
 ```js
 const { SplitbeeAnalytics } = require('@splitbee/node');
@@ -30,3 +30,5 @@ analytics.user.set({
   },
 });
 ```
+
+The full reference can be found in our [documentation](https://splitbee.io/docs/backend-analytics-nodejs).
