@@ -1,6 +1,5 @@
 import 'cross-fetch/polyfill';
-import { analytics, JSONType } from '@splitbee/core';
-import { EventOptions } from '@splitbee/core/dist/api';
+import { analytics, EventData, EventOptions } from '@splitbee/core';
 
 export class SplitbeeAnalytics {
   private projectId?: string;
@@ -16,7 +15,7 @@ export class SplitbeeAnalytics {
     }: {
       userId: string;
       event: string;
-      data?: JSONType;
+      data?: EventData;
     },
     options?: EventOptions
   ) => {
@@ -62,7 +61,7 @@ export class SplitbeeAnalytics {
         userData,
         userId,
       }: {
-        userData: JSONType;
+        userData: EventData;
         userId: string;
       },
       options?: EventOptions
