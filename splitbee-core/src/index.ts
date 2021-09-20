@@ -2,6 +2,7 @@ import {
   splitbeeRequest,
   RequestContext,
   JSONType,
+  EventData,
   EventOptions,
   setEndpoint,
   Response,
@@ -15,7 +16,7 @@ export const analytics = {
     options,
   }: {
     event: string;
-    data?: JSONType;
+    data?: EventData;
     context: RequestContext;
     options?: EventOptions;
   }) => {
@@ -53,7 +54,7 @@ export const analytics = {
     userData,
     context,
   }: {
-    userData: JSONType;
+    userData: EventData;
     context: RequestContext;
   }) => {
     return await splitbeeRequest({
@@ -86,4 +87,11 @@ export const analytics = {
   },
 };
 
-export { RequestContext, JSONType, Response, setEndpoint };
+export {
+  RequestContext,
+  EventOptions,
+  JSONType,
+  EventData,
+  Response,
+  setEndpoint,
+};

@@ -25,7 +25,14 @@ interface GenericRequest {
   context?: RequestContext;
 }
 
-export type JSONType = { [key: string]: string | number | boolean };
+export type EventData = {
+  [key: string]: string | number | boolean | undefined;
+};
+
+/**
+ * @deprecated Use EventData instead.
+ */
+export type JSONType = EventData;
 
 interface PageViewRequest extends GenericRequest {
   path: '/i';
@@ -46,14 +53,14 @@ export interface EventRequest extends GenericRequest {
   path: '/t';
   body: {
     event: string;
-    data?: JSONType;
+    data?: EventData;
     options?: EventOptions;
   };
 }
 
 interface IdentifyRequest extends GenericRequest {
   path: '/user';
-  body: JSONType;
+  body: EventData;
 }
 
 interface EndRequest extends GenericRequest {
