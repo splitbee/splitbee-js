@@ -38,6 +38,6 @@
   },
   "dependencies": {
     "@splitbee/core": "^0.3.0",
-    "cross-fetch": "^3.0.5"
+    "cross-fetch": "^3.1.5"
   }
 }
